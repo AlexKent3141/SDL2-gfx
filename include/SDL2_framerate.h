@@ -70,16 +70,11 @@ extern "C" {
 	/* ---- Function Prototypes */
 
 #ifdef _MSC_VER
-#  if defined(DLL_EXPORT) && !defined(LIBSDL2_GFX_DLL_IMPORT)
-#    define SDL2_FRAMERATE_SCOPE __declspec(dllexport)
-#  else
-#    ifdef LIBSDL2_GFX_DLL_IMPORT
-#      define SDL2_FRAMERATE_SCOPE __declspec(dllimport)
-#    endif
-#  endif
-#endif
-#ifndef SDL2_FRAMERATE_SCOPE
-#  define SDL2_FRAMERATE_SCOPE extern
+#define SDL2_FRAMERATE_SCOPE __declspec(dllexport)
+#elif __GNUC__
+#define SDL2_FRAMERATE_SCOPE __attribute__ ((visibility("default")))
+#else
+#error "Unsupported compiler"
 #endif
 
 	/* Functions return 0 or value for sucess and -1 for error */

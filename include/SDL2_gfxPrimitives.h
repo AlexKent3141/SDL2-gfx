@@ -52,16 +52,11 @@ extern "C" {
 	/* ---- Function Prototypes */
 
 #ifdef _MSC_VER
-#  if defined(DLL_EXPORT) && !defined(LIBSDL2_GFX_DLL_IMPORT)
-#    define SDL2_GFXPRIMITIVES_SCOPE __declspec(dllexport)
-#  else
-#    ifdef LIBSDL2_GFX_DLL_IMPORT
-#      define SDL2_GFXPRIMITIVES_SCOPE __declspec(dllimport)
-#    endif
-#  endif
-#endif
-#ifndef SDL2_GFXPRIMITIVES_SCOPE
-#  define SDL2_GFXPRIMITIVES_SCOPE extern
+#define SDL2_GFXPRIMITIVES_SCOPE __declspec(dllexport)
+#elif __GNUC__
+#define SDL2_GFXPRIMITIVES_SCOPE __attribute__ ((visibility("default")))
+#else
+#error "Unsupported compiler"
 #endif
 
 	/* Note: all ___Color routines expect the color to be in format 0xRRGGBBAA */
